@@ -1,0 +1,6 @@
+{
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/joshua.harwood/.platformio/penv/bin:/Users/joshua.harwood/.platformio/penv:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/usr/local/munki:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin:/Users/joshua.harwood/go/bin",
+        "PLATFORMIO_CALLER": "vscode"
+    }
+}
