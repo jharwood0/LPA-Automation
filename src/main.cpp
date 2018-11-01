@@ -1,10 +1,14 @@
 #include <Arduino.h>
 #include <Fogponics.h>
 
+Fogponics sys;
 void setup() {
-  // put your setup code here, to run once:
+    Serial.begin(9600);
+    sys.add_debug(Serial);
+    sys.add_fogger(3, LOW, 5000, 60000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+    sys.run(); 
+    delay(500);
 }
