@@ -18,7 +18,7 @@ Fogger::Fogger(uint8_t pin, uint32_t on_time, uint32_t off_time){
 // |----------INTERVAL----------|---DURATION---|----------INTERVAL----------|----DURATION---|
 void Fogger::run(unsigned long current_time){
     if (_fogger_state == _fogger_off_state && (current_time - _previous_run >= _fogger_off_time)) {
-        Serial.println("Should be turning on");
+        if(_debug) _debug_stream->println("[Fogger] activating");
         _fogger_state = _fogger_on_state;
         _fogger_start_time = current_time;
         _previous_run = current_time;
@@ -26,7 +26,7 @@ void Fogger::run(unsigned long current_time){
     }
     else if(_fogger_state == _fogger_on_state && (current_time - _fogger_start_time >= _fogger_on_time))
     {
-        Serial.println("Should be turning off");
+        if(_debug) _debug_stream->println("[Fogger] deactivating");
         _fogger_state = _fogger_off_state;
         digitalWrite(_fogger_pin, _fogger_state);
     }

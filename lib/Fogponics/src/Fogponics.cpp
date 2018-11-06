@@ -25,6 +25,7 @@ void Fogponics::add_fogger(uint8_t pin, uint8_t on_state, uint32_t on_time, uint
 void Fogponics::run(){
     unsigned long current_time = millis();
     for(int i = 0; i < _num_foggers; i++){
+        if(_debug) _debug_stream->println("[Fogponics] executing run for fogger");
         this->_foggers[i].run(current_time);
     }
 }
