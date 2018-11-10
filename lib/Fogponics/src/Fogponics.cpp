@@ -15,17 +15,38 @@ void Fogponics::add_debug(Stream& debug_stream){
 }
 
 void Fogponics::add_fogger(uint8_t pin, uint8_t on_state, uint32_t on_time, uint32_t off_time){
-    Fogger temp(pin, on_time, off_time);
+    Fogger temp(pin);
     this->_foggers[_num_foggers] = temp;
     if(_debug){
         this->_foggers[_num_foggers].add_debug(*_debug_stream);
     }
 }
 
+uint8_t Fogponics::get_current_state(){
+    return _current_state;
+}
+
+void Fogponics::activate(){
+    _current_state = 0x01;
+    for(int i = 0; i < _num_foggers; i++){
+        if(_debug) _debug_stream->println("[Fogponics] starting fogger");
+        this->_foggers[i].start();
+    }
+}
+
+void Fogponics::deactivate(){
+    _current_state = 0x00;
+    for(int i = 0; i < _num_foggers; i++){
+        if(_debug) _debug_stream->println("[Fogponics] stopping fogger");
+        this->_foggers[i].stop();
+    }
+}
+
+/*
 void Fogponics::run(){
     unsigned long current_time = millis();
     for(int i = 0; i < _num_foggers; i++){
         if(_debug) _debug_stream->println("[Fogponics] executing run for fogger");
         this->_foggers[i].run(current_time);
     }
-}
+}*/
