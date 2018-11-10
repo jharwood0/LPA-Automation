@@ -1,5 +1,5 @@
 /*
-  Timmer.cpp - controller of Fogponics library.
+  Timmr.cpp - controller of Fogponics library.
   Created by Josh Harwood, October 20, 2018.
 */
 #include "Arduino.h"
@@ -15,15 +15,8 @@ Timer::Timer(Fogponics& fogger_system, uint32_t on_time, uint32_t off_time){
     _fogger_off_time = off_time;
 }
 
-//TODO from here
-/*
-* I have inverted the concept of controllers so that fogger are simple on/off devices
-* Fogponics handles the organisation of the components
-* The controller classes wrap up the fogponics class so orchestrate the whole automation process
-* this effectively makes the fogponics class and the foggers dumb classes
-* theorectically the timer class can be replaced with more complicated control systems in the future
-* such as threshold and PID
-*/
+
+// |----------INTERVAL----------|---DURATION---|----------INTERVAL----------|----DURATION---|
 void Timer::run(){
     unsigned long current_time = millis();
     _fogger_state = _fogger_system->get_current_state();

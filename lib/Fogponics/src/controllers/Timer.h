@@ -1,5 +1,5 @@
 /*
-  Timer_controller.h - component of Fogponics library.
+  Timer.h - controller of Fogponics library.
   Created by Josh Harwood, October 20, 2018.
 */
 #ifndef Timer_h

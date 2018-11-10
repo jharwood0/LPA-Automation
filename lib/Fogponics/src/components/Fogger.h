@@ -12,8 +12,6 @@ class Fogger
   public:
     Fogger();
     Fogger(uint8_t pin);
-    //Fogger(uint8_t pin, uint32_t on_time, uint32_t off_time);
-    //void run(unsigned long current_time);
     void start();
     void stop();
     void set_states(uint8_t on_state, uint8_t off_state);
@@ -25,8 +23,6 @@ class Fogger
     uint8_t _fogger_on_state = HIGH;
     uint8_t _fogger_off_state = LOW;
     volatile uint8_t _fogger_state;
-    //uint32_t _fogger_on_time, _fogger_off_time;
-    //unsigned long _fogger_start_time;
     Stream* _debug_stream;
     uint8_t _debug;
 };
