@@ -22,13 +22,13 @@ void Timer::run(){
     _fogger_state = _fogger_system->get_current_state();
     if(_fogger_state){
         if(_debug) _debug_stream->println("[Fogger] activating");
-        _fogger_state = _fogger_on_state;
+        _fogger_system->start()
         _fogger_start_time = current_time;
         _previous_run = current_time;
         digitalWrite(_fogger_pin, _fogger_state);
     } else if(_fogger_state == _fogger_on_state && (current_time - _fogger_start_time >= _fogger_on_time)) {
         if(_debug) _debug_stream->println("[Fogger] deactivating");
-        _fogger_state = _fogger_off_state;
+        _fogger_system->stop();
         digitalWrite(_fogger_pin, _fogger_state);
     }
 }
