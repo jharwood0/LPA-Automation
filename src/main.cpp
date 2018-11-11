@@ -11,7 +11,7 @@ void setup() {
     }
     Serial.println("Starting system");
     sys.add_debug(Serial);
-    sys.add_fogger(3);
+    sys.add_fogger(16);
     timerController.add_debug(Serial);
 }
 
