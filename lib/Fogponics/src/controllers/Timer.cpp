@@ -15,20 +15,28 @@ Timer::Timer(Fogponics& fogger_system, uint32_t on_time, uint32_t off_time){
     _fogger_off_time = off_time;
 }
 
+void Timer::add_debug(Stream& debug_stream){
+    _debug_stream = &debug_stream;
+    _debug = 0x01;
+    _debug_stream->println("[Timer] enabled debugging");
+}
 
 // |----------INTERVAL----------|---DURATION---|----------INTERVAL----------|----DURATION---|
 void Timer::run(){
     unsigned long current_time = millis();
     _fogger_state = _fogger_system->get_current_state();
-    if(_fogger_state){
-        if(_debug) _debug_stream->println("[Fogger] activating");
-        _fogger_system->start()
+    if(_debug){
+         _debug_stream->print("[Timer] fogger state is " + _fogger_state);
+         _debug_stream->println(_fogger_state);
+    }
+
+    if (_fogger_state == 0 && (current_time - _previous_run >= _fogger_off_time)) {
+        if(_debug) _debug_stream->println("[Timer] starting foggers");
+        _fogger_system->activate();
         _fogger_start_time = current_time;
         _previous_run = current_time;
-        digitalWrite(_fogger_pin, _fogger_state);
-    } else if(_fogger_state == _fogger_on_state && (current_time - _fogger_start_time >= _fogger_on_time)) {
-        if(_debug) _debug_stream->println("[Fogger] deactivating");
-        _fogger_system->stop();
-        digitalWrite(_fogger_pin, _fogger_state);
+    } else if(_fogger_state == 1 && (current_time - _fogger_start_time >= _fogger_on_time)) {
+        if(_debug) _debug_stream->println("[Timer] stopping foggers");
+        _fogger_system->deactivate();
     }
 }

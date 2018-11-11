@@ -14,6 +14,7 @@ class Timer
     Timer();
     Timer(Fogponics& fogger_system, uint32_t on_time, uint32_t off_time);
     void run();
+    void add_debug(Stream& debug_stream);
   private:
     unsigned long _previous_run;
     uint8_t _fogger_pin;
