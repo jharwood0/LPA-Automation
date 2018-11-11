@@ -3,7 +3,7 @@
 #include <controllers/Timer.h>
 
 Fogponics sys;
-Timer timerController(sys, 5000, 10000);
+Timer timerController(sys, 5000, 60000);
 void setup() {
     Serial.begin(9600);
     while (!Serial){
@@ -11,7 +11,7 @@ void setup() {
     }
     Serial.println("Starting system");
     sys.add_debug(Serial);
-    sys.add_fogger(16);
+    sys.add_fogger(4);
     timerController.add_debug(Serial);
 }
 

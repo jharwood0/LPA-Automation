@@ -20,8 +20,8 @@ class Fogger
   private:
     unsigned long _previous_run;
     uint8_t _fogger_pin;
-    uint8_t _fogger_on_state = HIGH;
-    uint8_t _fogger_off_state = LOW;
+    uint8_t _fogger_on_state = LOW;
+    uint8_t _fogger_off_state = HIGH;
     volatile uint8_t _fogger_state;
     Stream* _debug_stream;
     uint8_t _debug;

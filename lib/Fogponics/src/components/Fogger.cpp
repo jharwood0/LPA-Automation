@@ -12,6 +12,7 @@ Fogger::Fogger(){
 Fogger::Fogger(uint8_t pin){
     _fogger_pin = pin;
     pinMode(_fogger_pin, OUTPUT);
+    this->stop();
 }
 
 void Fogger::set_states(uint8_t on_state, uint8_t off_state){
