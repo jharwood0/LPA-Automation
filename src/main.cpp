@@ -1,8 +1,10 @@
 #include <Arduino.h>
 #include <Fogponics.h>
 #include <controllers/Timer.h>
+#include <stats/Stats.h>
 
 #include <WiFi.h>
+#include <HTTPClient.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
@@ -10,13 +12,15 @@
 const char* ssid = "";
 const char* password = "";
 
+HTTPClient http;
 Fogponics sys;
 Timer timerController(sys, 5000, 60000);
+Stats stats("167.99.92.44:8086/write?db=aeroponics", http, sys, 30000);
 void setup() {
     Serial.begin(9600);
     while (!Serial){
     ;
-    }
+    } 
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     while (WiFi.waitForConnectResult() != WL_CONNECTED) {
@@ -62,6 +66,7 @@ void setup() {
 
 void loop() {
     timerController.run();
-    ArduinoOTA.handle(); 
+    ArduinoOTA.handle();
+    stats.handle();
     delay(500);
 }
