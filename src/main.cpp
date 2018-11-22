@@ -1,21 +1,23 @@
 #include <Arduino.h>
 #include <Fogponics.h>
 #include <controllers/Timer.h>
-#include <stats/Stats.h>
 
 #include <WiFi.h>
-#include <HTTPClient.h>
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
+#include <InfluxArduino.hpp>
+
 const char* ssid = "";
 const char* password = "";
+const char* influx_db = "";
+const char* influx_ip = "";
+const uint16_t influx_port = 8086;
 
-HTTPClient http;
 Fogponics sys;
 Timer timerController(sys, 5000, 60000);
-Stats stats("167.99.92.44:8086/write?db=aeroponics", http, sys, 30000);
+InfluxArduino influx;
 void setup() {
     Serial.begin(9600);
     while (!Serial){
@@ -34,6 +36,7 @@ void setup() {
     sys.add_debug(Serial);
     sys.add_fogger(4);
     timerController.add_debug(Serial);
+    influx.configure(influx_db, influx_ip, influx_port);
 
     ArduinoOTA
     .onStart([]() {
@@ -64,9 +67,22 @@ void setup() {
     ArduinoOTA.begin();
 }
 
+void handle_stats(){
+  char tags[32];
+  sprintf(tags,"id=0"); //write a tag called new_tag
+  char fields[32];
+  sprintf(fields,"status=%d",sys.get_current_state()); //write two fields: id and state
+  uint8_t writeSuccessful = influx.write("fogponics",tags,fields);
+  if(!writeSuccessful)
+  {
+    Serial.print("error: ");
+    Serial.println(influx.getResponse());
+  }
+}
+
 void loop() {
     timerController.run();
     ArduinoOTA.handle();
-    stats.handle();
+    handle_stats();
     delay(500);
 }
